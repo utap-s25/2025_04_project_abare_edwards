@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -23,29 +22,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="image"
             android:src="@android:drawable/ic_menu_manage"
-            android:background="@android:color/transparent" />
+            />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/profileBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="4dp"
         android:text="$0.00"
-        android:textSize="20sp"
-        android:paddingTop="4dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="12dp"
         android:text="Transactions"
-        android:textStyle="bold"
-        android:paddingTop="12dp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/profileTransactionList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
 </LinearLayout>
