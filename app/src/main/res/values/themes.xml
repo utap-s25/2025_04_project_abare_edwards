@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme._2025_04_project_abare_edwards" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#95A5A6</item>
+    </style>
+
+    <style name="Theme._2025_04_project_abare_edwards" parent="Base.Theme._2025_04_project_abare_edwards" />
+</resources>
