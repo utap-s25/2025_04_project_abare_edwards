@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "322010975611",
+    "project_id": "project-abare-edwards",
+    "storage_bucket": "project-abare-edwards.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322010975611:android:20189dcdf6724f9a9481de",
+        "android_client_info": {
+          "package_name": "edu.utap.a2025_04_project_abare_edwards"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfMrpJgpAmKY6yrf8yELX9-sdIjcZ82gw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
