@@ -1,12 +1,14 @@
 package edu.utap.a2025_04_project_abare_edwards
 
 import android.os.Bundle
+import com.google.firebase.FirebaseApp
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_main)
 
         // Load initial fragment
