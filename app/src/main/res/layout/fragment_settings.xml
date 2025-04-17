@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/settingsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        />
+
+    <Button
+        android:id="@+id/changeNameBtn"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:text="Change Name"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/settingsText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/deleteHistoryBtn"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:text="Delete History"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/changeNameBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/deleteAccountBtn"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:text="Delete Account"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/deleteHistoryBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/overrideBalanceBtn"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:text="Override Balance"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/deleteAccountBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
