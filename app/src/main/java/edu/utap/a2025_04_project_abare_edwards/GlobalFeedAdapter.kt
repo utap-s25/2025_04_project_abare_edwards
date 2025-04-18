@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.utap.a2025_04_project_abare_edwards.database.Transaction
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class GlobalFeedAdapter(private val transactions: List<Transaction>) :
-RecyclerView.Adapter<GlobalFeedAdapter.ViewHolder>() {
+    RecyclerView.Adapter<GlobalFeedAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val senderText: TextView = itemView.findViewById(R.id.senderText)
@@ -25,12 +22,7 @@ RecyclerView.Adapter<GlobalFeedAdapter.ViewHolder>() {
             receiverText.text = "To: ${transaction.receiverId}"
             amountText.text = "$${transaction.amount}"
             commentText.text = transaction.comment
-            timestampText.text = formatTime(transaction.timestamp)
-        }
-
-        private fun formatTime(timeMillis: Long): String {
-            val sdf = SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault())
-            return sdf.format(Date(timeMillis))
+            timestampText.text = transaction.timestamp?.toDate().toString()
         }
     }
 
