@@ -1,4 +1,4 @@
-package edu.utap.a2025_04_project_abare_edwards
+package edu.utap.a2025_04_project_abare_edwards.database
 
 import com.google.firebase.Timestamp
 
