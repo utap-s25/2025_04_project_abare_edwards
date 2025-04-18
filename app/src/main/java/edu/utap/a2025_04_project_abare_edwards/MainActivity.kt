@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.google.firebase.FirebaseApp
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import edu.utap.a2025_04_project_abare_edwards.database.TransactionStore
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,5 +42,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        TransactionStore.init()
     }
 }
