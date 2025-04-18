@@ -1,15 +1,26 @@
 package edu.utap.a2025_04_project_abare_edwards
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.firebase.FirebaseApp
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import edu.utap.a2025_04_project_abare_edwards.database.TransactionStore
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
+
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            startActivity(Intent(this, AuthActivity::class.java))
+            finish()
+            return
+        }
+
+        setContentView(R.layout.activity_main)
+
         setContentView(R.layout.activity_main)
 
         // Load initial fragment
