@@ -1,21 +1,73 @@
 package edu.utap.a2025_04_project_abare_edwards
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import edu.utap.a2025_04_project_abare_edwards.database.User
 import edu.utap.a2025_04_project_abare_edwards.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var allUsers: List<Pair<String, User>>
+    private var selectedUser: Pair<String, User>? = null
+    private lateinit var adapter: UserAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        val currentUid = FirebaseAuth.getInstance().currentUser?.uid ?: return binding.root
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users").get().addOnSuccessListener { snapshot ->
+            allUsers = snapshot.documents
+                .filter { it.id != currentUid }
+                .mapNotNull { doc ->
+                    val user = doc.toObject(User::class.java)
+                    if (user != null) doc.id to user else null
+                }
+
+            adapter = UserAdapter(allUsers) { uid, user ->
+                selectedUser = uid to user
+                Toast.makeText(context, "Selected ${user.name}", Toast.LENGTH_SHORT).show()
+            }
+
+            binding.peopleRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = this@SearchFragment.adapter
+            }
+
+            // Setup search filtering
+            binding.searchBar.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun afterTextChanged(s: Editable?) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val query = s.toString().lowercase()
+                    val filtered = allUsers.filter { it.second.name.lowercase().contains(query) }
+                    adapter.updateList(filtered)
+                }
+            })
+        }
+
+        binding.sendToUserBtn.setOnClickListener {
+            selectedUser?.let { (uid, user) ->
+                Toast.makeText(context, "TODO: Send to ${user.name}", Toast.LENGTH_SHORT).show()
+                // TODO: Navigate to SendMoneyFragment or Activity
+            } ?: Toast.makeText(context, "No user selected", Toast.LENGTH_SHORT).show()
+        }
+
         return binding.root
     }
 
