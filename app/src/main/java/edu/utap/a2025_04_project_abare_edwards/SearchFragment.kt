@@ -19,7 +19,6 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var allUsers: List<Pair<String, User>>
-    private var selectedUser: Pair<String, User>? = null
     private lateinit var adapter: UserAdapter
 
     override fun onCreateView(
@@ -40,9 +39,13 @@ class SearchFragment : Fragment() {
                 }
 
             adapter = UserAdapter(allUsers) { uid, user ->
-                selectedUser = uid to user
-                Toast.makeText(context, "Selected ${user.name}", Toast.LENGTH_SHORT).show()
+                val sendMoneyFragment = SendMoneyFragment(uid, user.name)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, sendMoneyFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
+
 
             binding.peopleRecyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
@@ -59,13 +62,6 @@ class SearchFragment : Fragment() {
                     adapter.updateList(filtered)
                 }
             })
-        }
-
-        binding.sendToUserBtn.setOnClickListener {
-            selectedUser?.let { (uid, user) ->
-                Toast.makeText(context, "TODO: Send to ${user.name}", Toast.LENGTH_SHORT).show()
-                // TODO: Navigate to SendMoneyFragment or Activity
-            } ?: Toast.makeText(context, "No user selected", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
