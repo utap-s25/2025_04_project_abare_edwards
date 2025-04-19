@@ -7,8 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.utap.a2025_04_project_abare_edwards.database.Transaction
 
-class GlobalFeedAdapter(private val transactions: List<Transaction>) :
-    RecyclerView.Adapter<GlobalFeedAdapter.ViewHolder>() {
+class GlobalFeedAdapter(
+    private val transactions: List<Transaction>,
+    private val uidToName: Map<String, String>
+) : RecyclerView.Adapter<GlobalFeedAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val senderText: TextView = itemView.findViewById(R.id.senderText)
@@ -18,8 +20,11 @@ class GlobalFeedAdapter(private val transactions: List<Transaction>) :
         private val timestampText: TextView = itemView.findViewById(R.id.timestampText)
 
         fun bind(transaction: Transaction) {
-            senderText.text = "From: ${transaction.senderId}"
-            receiverText.text = "To: ${transaction.receiverId}"
+            val senderName = uidToName[transaction.senderId] ?: transaction.senderId
+            val receiverName = uidToName[transaction.receiverId] ?: transaction.receiverId
+
+            senderText.text = "From: $senderName"
+            receiverText.text = "To: $receiverName"
             amountText.text = "$${transaction.amount}"
             commentText.text = transaction.comment
             timestampText.text = transaction.timestamp?.toDate().toString()
