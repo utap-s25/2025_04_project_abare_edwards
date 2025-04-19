@@ -23,12 +23,11 @@
     <Button
         android:id="@+id/changeNameBtn"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="Change Name"
         android:gravity="center"
         android:autoSizeTextType="uniform"
         android:layout_marginTop="16dp"
-        android:background="@drawable/border"
         app:layout_constraintTop_toBottomOf="@id/settingsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,12 +36,11 @@
     <Button
         android:id="@+id/deleteHistoryBtn"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="Delete History"
         android:gravity="center"
         android:autoSizeTextType="uniform"
         android:layout_marginTop="16dp"
-        android:background="@drawable/border"
         app:layout_constraintTop_toBottomOf="@id/changeNameBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -50,12 +48,11 @@
     <Button
         android:id="@+id/deleteAccountBtn"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="Delete Account"
         android:gravity="center"
         android:autoSizeTextType="uniform"
         android:layout_marginTop="16dp"
-        android:background="@drawable/border"
         app:layout_constraintTop_toBottomOf="@id/deleteHistoryBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -63,12 +60,11 @@
     <Button
         android:id="@+id/overrideBalanceBtn"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="Override Balance"
         android:gravity="center"
         android:autoSizeTextType="uniform"
         android:layout_marginTop="16dp"
-        android:background="@drawable/border"
         app:layout_constraintTop_toBottomOf="@id/deleteAccountBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

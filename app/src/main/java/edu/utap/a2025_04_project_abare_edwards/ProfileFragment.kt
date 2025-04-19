@@ -21,6 +21,13 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        binding.settingsBtn.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, SettingsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         if (uid != null) {
             FirebaseFirestore.getInstance()

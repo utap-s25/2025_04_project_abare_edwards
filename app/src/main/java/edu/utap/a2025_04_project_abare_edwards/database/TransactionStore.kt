@@ -24,4 +24,26 @@ object TransactionStore {
                 }
             }
     }
+
+    fun anonymizeUserTransactions(userId: String, onComplete: (() -> Unit)? = null) {
+        val transactionsTable = FirebaseFirestore.getInstance().collection("transactions")
+
+        transactionsTable
+            .whereEqualTo("senderId", userId)
+            .get()
+            .addOnSuccessListener {
+                for (transaction in it) {
+                    transactionsTable.document(transaction.id).update("senderId", "deletedUser")
+                }
+            }
+        transactionsTable
+            .whereEqualTo("receiverId", userId)
+            .get()
+            .addOnSuccessListener {
+                for (transaction in it) {
+                    transactionsTable.document(transaction.id).update("receiverId", "deletedUser")
+                }
+                onComplete?.invoke()
+            }
+    }
 }
