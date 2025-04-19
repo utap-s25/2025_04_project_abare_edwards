@@ -1,6 +1,7 @@
 package edu.utap.a2025_04_project_abare_edwards
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -80,14 +81,16 @@ class SettingsFragment : Fragment() {
                 .setPositiveButton("Delete") { _, _ ->
                     TransactionStore.anonymizeUserTransactions(uid) {
                         db.collection("users").document(uid).delete()
-                        user.delete()
-                            .addOnSuccessListener {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Account deleted",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                        user.delete().addOnSuccessListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Account deleted",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        val intent = Intent(requireContext(), AuthActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(intent)
                     }
                 }
                 .setNegativeButton("Cancel", null)
