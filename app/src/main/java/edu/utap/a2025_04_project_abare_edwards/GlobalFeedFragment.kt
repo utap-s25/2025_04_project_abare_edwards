@@ -32,16 +32,13 @@ class GlobalFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Layout manager only needs to be set once
         binding.globalFeedRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Fetch UID → Name map
         FirebaseFirestore.getInstance().collection("users").get().addOnSuccessListener { snapshot ->
             val uidToName = snapshot.documents.associate { doc ->
                 doc.id to (doc.getString("name") ?: "Unknown")
             }
 
-            // Observe live transactions and populate feed with names
             TransactionStore.liveTransactions.observe(viewLifecycleOwner) { transactions ->
                 adapter = GlobalFeedAdapter(transactions, uidToName)
                 binding.globalFeedRecyclerView.adapter = adapter

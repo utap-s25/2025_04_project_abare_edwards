@@ -55,7 +55,6 @@ class AuthActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         val uid = it.user?.uid
                         if (uid != null) {
-                            // 🔥 Write user document to Firestore
                             val user = User(name = email.substringBefore("@"), balance = 0.0)
                             FirebaseFirestore.getInstance()
                                 .collection("users")

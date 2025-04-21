@@ -25,11 +25,9 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
     ): View {
         _binding = FragmentSendMoneyBinding.inflate(inflater, container, false)
 
-        // Set recipient name
         binding.name.text = receiverName
         updateAmount()
 
-        // Set up keypad
         val keypadIds = listOf(
             binding.button0, binding.button1, binding.button2,
             binding.button3, binding.button4, binding.button5,
@@ -74,7 +72,6 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
             return
         }
 
-        // Step 1: Get sender balance
         db.collection("users").document(senderUid).get()
             .addOnSuccessListener { senderDoc ->
                 val senderBalance = senderDoc.getDouble("balance") ?: 0.0
@@ -83,23 +80,19 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
                     return@addOnSuccessListener
                 }
 
-                // Step 2: Deduct from sender
                 db.collection("users").document(senderUid)
                     .update("balance", senderBalance - amount)
                     .addOnSuccessListener {
 
-                        // Step 3: Fetch receiver balance
                         db.collection("users").document(receiverUid).get()
                             .addOnSuccessListener { receiverDoc ->
                                 val receiverBalance = receiverDoc.getDouble("balance") ?: 0.0
                                 val newReceiverBalance = receiverBalance + amount
 
-                                // Step 4: Update receiver balance
                                 db.collection("users").document(receiverUid)
                                     .update("balance", newReceiverBalance)
                                     .addOnSuccessListener {
 
-                                        // Step 5: Write the transaction
                                         val txn = hashMapOf(
                                             "senderId" to senderUid,
                                             "receiverId" to receiverUid,

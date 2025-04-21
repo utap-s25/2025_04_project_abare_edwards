@@ -52,7 +52,6 @@ class SearchFragment : Fragment() {
                 adapter = this@SearchFragment.adapter
             }
 
-            // Setup search filtering
             binding.searchBar.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun afterTextChanged(s: Editable?) {}

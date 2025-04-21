@@ -23,12 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        // Load initial fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, GlobalFeedFragment())
             .commit()
 
-        // Setup bottom nav listener
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
