@@ -3,6 +3,7 @@ package edu.utap.a2025_04_project_abare_edwards
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.utap.a2025_04_project_abare_edwards.database.Transaction
@@ -21,6 +22,7 @@ class TransactionAdapter(
         val comment = itemView.findViewById<TextView>(R.id.txnComment)
         val amount = itemView.findViewById<TextView>(R.id.txnAmount)
         val timestamp = itemView.findViewById<TextView>(R.id.txnTimestamp)
+        val lock = itemView.findViewById<ImageView>(R.id.lockIcon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TxnViewHolder {
@@ -39,6 +41,7 @@ class TransactionAdapter(
         holder.comment.text = txn.comment
         holder.amount.text = "$%.2f".format(txn.amount)
         holder.timestamp.text = formatTimestamp(txn.timestamp?.toDate())
+        holder.lock.visibility = if (txn.locked) View.VISIBLE else View.GONE
     }
 
     private fun formatTimestamp(date: Date?): String {

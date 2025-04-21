@@ -28,7 +28,6 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         val currentUid = FirebaseAuth.getInstance().currentUser?.uid ?: return binding.root
-        val db = FirebaseFirestore.getInstance()
 
         UserStore.liveUsers.observe(viewLifecycleOwner) { users ->
             allUsers = users
