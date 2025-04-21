@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
 
-        if (FirebaseAuth.getInstance().currentUser == null) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
             startActivity(Intent(this, AuthActivity::class.java))
             finish()
             return
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        TransactionStore.init()
+        TransactionStore.init(currentUser)
         UserStore.init()
     }
 }

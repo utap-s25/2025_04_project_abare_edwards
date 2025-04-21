@@ -2,6 +2,7 @@ package edu.utap.a2025_04_project_abare_edwards.database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
@@ -11,7 +12,7 @@ object TransactionStore {
 
     val liveTransactions: LiveData<List<Transaction>> get() = liveTransactionsStore
 
-    fun init() {
+    fun init(user: FirebaseUser) {
         FirebaseFirestore.getInstance()
             .collection("transactions")
             .orderBy("timestamp", Query.Direction.DESCENDING)
@@ -19,7 +20,7 @@ object TransactionStore {
                 if (snapshot != null) {
                     val transactions = snapshot.documents.mapNotNull {
                         it.toObject(Transaction::class.java)
-                    }
+                    }.filter { !it.locked || it.senderId == user.uid || it.receiverId == user.uid }
                     liveTransactionsStore.postValue(transactions)
                 }
             }

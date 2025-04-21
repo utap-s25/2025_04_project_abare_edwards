@@ -1,16 +1,15 @@
 package edu.utap.a2025_04_project_abare_edwards
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.utap.a2025_04_project_abare_edwards.databinding.FragmentSendMoneyBinding
-import java.util.*
 
 class SendMoneyFragment(private val receiverUid: String, private val receiverName: String) : Fragment() {
 
@@ -18,6 +17,7 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
     private val binding get() = _binding!!
 
     private var amountString = ""
+    private var locked = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +51,11 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
 
         binding.buttonSend.setOnClickListener {
             sendTransaction()
+        }
+
+        binding.lockButton.setOnClickListener {
+            locked = !locked
+            binding.lockButton.setBackgroundColor(if (locked) Color.RED else Color.TRANSPARENT)
         }
 
         return binding.root
@@ -98,7 +103,8 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
                                             "receiverId" to receiverUid,
                                             "amount" to amount,
                                             "comment" to comment,
-                                            "timestamp" to com.google.firebase.Timestamp.now()
+                                            "timestamp" to com.google.firebase.Timestamp.now(),
+                                            "locked" to locked
                                         )
 
                                         db.collection("transactions")

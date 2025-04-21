@@ -7,5 +7,6 @@ data class Transaction(
     val receiverId: String = "",
     val amount: Double = 0.0,
     val comment: String = "",
-    val timestamp: Timestamp? = null
+    val timestamp: Timestamp? = null,
+    val locked: Boolean = false
 )
