@@ -59,7 +59,7 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
     }
 
     private fun updateAmount() {
-        binding.amount.text = if (amountString.isBlank()) "[amount]" else "$$amountString"
+        binding.amount.text = if (amountString.isBlank()) "$0" else "$$amountString"
     }
 
     private fun sendTransaction() {
@@ -79,7 +79,7 @@ class SendMoneyFragment(private val receiverUid: String, private val receiverNam
             .addOnSuccessListener { senderDoc ->
                 val senderBalance = senderDoc.getDouble("balance") ?: 0.0
                 if (senderBalance < amount) {
-                    binding.name.text = "Insufficient balance"
+                    Toast.makeText(requireContext(), "Insufficient balance", Toast.LENGTH_SHORT).show()
                     return@addOnSuccessListener
                 }
 
