@@ -6,12 +6,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.utap.a2025_04_project_abare_edwards.database.User
+import edu.utap.a2025_04_project_abare_edwards.database.UserStore
 import edu.utap.a2025_04_project_abare_edwards.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
@@ -30,13 +30,10 @@ class SearchFragment : Fragment() {
         val currentUid = FirebaseAuth.getInstance().currentUser?.uid ?: return binding.root
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("users").get().addOnSuccessListener { snapshot ->
-            allUsers = snapshot.documents
-                .filter { it.id != currentUid }
-                .mapNotNull { doc ->
-                    val user = doc.toObject(User::class.java)
-                    if (user != null) doc.id to user else null
-                }
+        UserStore.liveUsers.observe(viewLifecycleOwner) { users ->
+            allUsers = users
+                .filter { it.uid != currentUid }
+                .map { it.uid to it }
 
             adapter = UserAdapter(allUsers) { uid, user ->
                 val sendMoneyFragment = SendMoneyFragment(uid, user.name)
