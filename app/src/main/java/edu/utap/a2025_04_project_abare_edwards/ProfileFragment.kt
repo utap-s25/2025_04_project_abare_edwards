@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import edu.utap.a2025_04_project_abare_edwards.database.TransactionStore
+import edu.utap.a2025_04_project_abare_edwards.database.UserStore
 import edu.utap.a2025_04_project_abare_edwards.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -30,30 +30,19 @@ class ProfileFragment : Fragment() {
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         if (uid != null) {
-            FirebaseFirestore.getInstance()
-                .collection("users")
-                .document(uid)
-                .get()
-                .addOnSuccessListener { doc ->
-                    val name = doc.getString("name") ?: "Unknown"
-                    val balance = doc.getDouble("balance") ?: 0.0
+            UserStore.liveUsers.observe(viewLifecycleOwner) { users ->
+                val user = users.find { it.uid == uid }
+                val name = user?.name ?: "Unknown"
+                val balance = user?.balance ?: 0.0
 
-                    binding.profileName.text = name
-                    binding.profileBalance.text = "$%.2f".format(balance)
-                }
-                .addOnFailureListener {
-                    binding.profileName.text = "Error"
-                    binding.profileBalance.text = "-"
-                }
+                binding.profileName.text = name
+                binding.profileBalance.text = "$%.2f".format(balance)
+            }
         }
 
         val currentUid = FirebaseAuth.getInstance().currentUser?.uid ?: return binding.root
-        val db = FirebaseFirestore.getInstance()
 
-        db.collection("users").get().addOnSuccessListener { userSnapshot ->
-            val uidToName = userSnapshot.documents.associate { doc ->
-                doc.id to (doc.getString("name") ?: "Unknown")
-            }
+        UserStore.uidToNameMap.observe(viewLifecycleOwner) { uidToName ->
             TransactionStore.liveTransactions.observe(viewLifecycleOwner) { allTransactions ->
                 val userTransactions = allTransactions
                     .filter { it.senderId == currentUid || it.receiverId == currentUid }

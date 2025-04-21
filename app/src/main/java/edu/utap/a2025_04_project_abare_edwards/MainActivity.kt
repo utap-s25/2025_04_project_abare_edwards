@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import edu.utap.a2025_04_project_abare_edwards.database.TransactionStore
+import edu.utap.a2025_04_project_abare_edwards.database.UserStore
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,5 +54,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         TransactionStore.init()
+        UserStore.init()
     }
 }
