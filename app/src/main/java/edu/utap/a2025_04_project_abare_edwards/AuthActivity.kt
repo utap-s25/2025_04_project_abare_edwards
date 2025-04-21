@@ -13,6 +13,7 @@ import edu.utap.a2025_04_project_abare_edwards.database.User
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private var working = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,48 +27,62 @@ class AuthActivity : AppCompatActivity() {
         val registerBtn = findViewById<Button>(R.id.registerButton)
 
         loginBtn.setOnClickListener {
+            loginBtn.isEnabled = false
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
-                    Log.e("Auth", "Login error", it)
-                }
+            if (!working && email.isNotEmpty() && password.isNotEmpty()) {
+                working = true
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
+                        Log.e("Auth", "Login error", it)
+                    }
+            }
+            loginBtn.isEnabled = true
+            working = false
         }
 
         registerBtn.setOnClickListener {
+            registerBtn.isEnabled = false
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
-
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener { result ->
-                    val uid = result.user?.uid
-                    if (uid != null) {
-                        // 🔥 Write user document to Firestore
-                        val user = User(name = email.substringBefore("@"), balance = 0.0)
-                        FirebaseFirestore.getInstance()
-                            .collection("users")
-                            .document(uid)
-                            .set(user)
-                            .addOnSuccessListener {
-                                Log.d("Auth", "User Firestore document created")
-                                startActivity(Intent(this, MainActivity::class.java))
-                                finish()
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w("Auth", "Firestore user creation failed", e)
-                                Toast.makeText(this, "Failed to save user to database", Toast.LENGTH_SHORT).show()
-                            }
+            if (!working && email.isNotEmpty() && password.isNotEmpty()) {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        val uid = it.user?.uid
+                        if (uid != null) {
+                            // 🔥 Write user document to Firestore
+                            val user = User(name = email.substringBefore("@"), balance = 0.0)
+                            FirebaseFirestore.getInstance()
+                                .collection("users")
+                                .document(uid)
+                                .set(user)
+                                .addOnSuccessListener {
+                                    Log.d("Auth", "User Firestore document created")
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                    finish()
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w("Auth", "Firestore user creation failed", e)
+                                    Toast.makeText(
+                                        this,
+                                        "Failed to save user to database",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                        }
                     }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()
-                    Log.e("Auth", "Firebase Auth registration failed", it)
-                }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()
+                        Log.e("Auth", "Firebase Auth registration failed", it)
+                    }
+            }
+            registerBtn.isEnabled = true
+            working = false
         }
     }
 }
